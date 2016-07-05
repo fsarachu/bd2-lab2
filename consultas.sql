@@ -85,4 +85,15 @@ CREATE PROCEDURE Taxi()
   END;
 
 
+-- Tarea 6
+
+DROP PROCEDURE IF EXISTS Aumento;
+CREATE PROCEDURE Aumento(IN _importe decimal(8,2), IN _porcentaje decimal(5,2))
+  BEGIN
+    UPDATE categorias
+    SET SUELDO = SUELDO * (1 + (_porcentaje/100))
+    WHERE SUELDO < _importe;
+  END;
+
+
 
