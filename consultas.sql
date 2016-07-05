@@ -189,4 +189,26 @@ CREATE PROCEDURE TerminoSiNo(IN _matricula VARCHAR(10))
   END;
 
 
+-- Tarea 11
+
+DROP PROCEDURE IF EXISTS FinTrabajo;
+CREATE PROCEDURE FinTrabajo(IN _nroTrabajo SMALLINT(5) UNSIGNED, IN _precio DECIMAL(10, 2), IN _salida DATE)
+  BEGIN
+    -- Variables
+    DECLARE _matricula VARCHAR(10) DEFAULT NULL;
+
+    -- Obtengo matricula del trabajo
+    SELECT MATRICULA
+    INTO _matricula
+    FROM trabajos
+    WHERE NROTRABAJO = _nroTrabajo;
+
+    IF TerminoSiNo(_matricula) = 'TERMINADO'
+    THEN
+      UPDATE trabajos
+      SET PRECIO = _precio, SALIDA = _salida
+      WHERE NROTRABAJO = _nroTrabajo;
+    END IF;
+  END;
+
 
