@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS registromecanico (
 );
 
 -- Trigger para INSERT
+DROP TRIGGER IF EXISTS mecanicosInsert;
 CREATE TRIGGER mecanicosInsert AFTER INSERT ON mecanicos
 FOR EACH ROW
   BEGIN
@@ -16,6 +17,7 @@ FOR EACH ROW
   END;
 
 -- Trigger para UPDATE
+DROP TRIGGER IF EXISTS mecanicosUpdate;
 CREATE TRIGGER mecanicosUpdate AFTER UPDATE ON mecanicos
 FOR EACH ROW
   BEGIN
@@ -24,6 +26,7 @@ FOR EACH ROW
   END;
 
 -- Trigger para DELETE
+DROP TRIGGER IF EXISTS mecanicosDelete;
 CREATE TRIGGER mecanicosDelete AFTER DELETE ON mecanicos
 FOR EACH ROW
   BEGIN
