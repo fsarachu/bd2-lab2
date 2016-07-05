@@ -160,4 +160,33 @@ CREATE FUNCTION CantidadDias(_matricula VARCHAR(10))
   END;
 
 
+-- Tarea 10
+
+DROP PROCEDURE IF EXISTS TerminoSiNo;
+CREATE PROCEDURE TerminoSiNo(IN _matricula VARCHAR(10))
+  BEGIN
+    -- Variables
+    DECLARE _existe INT DEFAULT 0;
+
+    -- Existe el auto?
+    SELECT COUNT(*)
+    INTO _existe
+    FROM autos
+    WHERE MATRICULA = _matricula;
+
+    -- Muestro mensaje correspondiente
+    IF _existe = 0
+    THEN
+      SELECT 'NO EXISTE AUTO EN EL TALLER' AS Mensaje;
+    ELSE
+      IF CantidadDias(_matricula) = 0
+      THEN
+        SELECT 'NO TERMINADO' AS Mensaje;
+      ELSE
+        SELECT 'TERMINADO' AS Mensaje;
+      END IF;
+    END IF;
+  END;
+
+
 
