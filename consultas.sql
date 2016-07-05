@@ -48,3 +48,29 @@ CREATE PROCEDURE MarcaModelo(IN _marca VARCHAR(255), IN _modelo VARCHAR(255))
   END;
 
 
+-- Tarea 4
+
+DROP PROCEDURE IF EXISTS AgregoMecanico;
+CREATE PROCEDURE AgregoMecanico(IN _nombre    VARCHAR(30), IN _apellido VARCHAR(35),
+                                IN _direccion VARCHAR(50), IN _telefono VARCHAR(15))
+  BEGIN
+    -- Variables
+    DECLARE _id SMALLINT(5) UNSIGNED DEFAULT 0;
+    DECLARE _categoria SMALLINT(5) UNSIGNED DEFAULT NULL;
+
+    -- Obtengo id del nuevo mecánico
+    SELECT MAX(MECANICO)
+    INTO _id
+    FROM mecanicos;
+
+    SET _id = _id +1;
+
+    -- Obtengo id de la categoría ayudante de mecánico
+    SELECT CATEGORIA INTO _categoria FROM categorias WHERE DESCRIPCION = 'AYUDANTE DE MECANICO';
+
+    -- Inserto el nuevo ayudante de mecánico
+    INSERT INTO mecanicos (MECANICO, NOMBRE, APELLIDO, CATEGORIA, DIRECCION, TELEFONO)
+    VALUES (_id, _nombre, _apellido, _categoria, _direccion, _telefono);
+  END;
+
+
