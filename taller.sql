@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 05, 2016 at 10:36 AM
+-- Generation Time: Jul 05, 2016 at 11:09 AM
 -- Server version: 5.6.30-1
 -- PHP Version: 7.0.7-5
 
@@ -283,6 +283,52 @@ INSERT INTO `mecanicos` (`MECANICO`, `NOMBRE`, `APELLIDO`, `CATEGORIA`, `DIRECCI
 (5, 'Pedro', 'Martínez', 3, 'Malvinas esq. Portugal', '417643'),
 (6, 'Esteban', 'Quito', 2, 'calle 7 y 8', '334455');
 
+--
+-- Triggers `mecanicos`
+--
+DELIMITER $$
+CREATE TRIGGER `mecanicosDelete` AFTER DELETE ON `mecanicos` FOR EACH ROW BEGIN
+    INSERT INTO registromecanico (nombre, operacion, fechayhora)
+    VALUES (concat(old.NOMBRE, old.APELLIDO), 'DELETE', now());
+  END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `mecanicosInsert` AFTER INSERT ON `mecanicos` FOR EACH ROW BEGIN
+    INSERT INTO registromecanico (nombre, operacion, fechayhora)
+    VALUES (concat(new.NOMBRE, new.APELLIDO), 'INSERT', now());
+  END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `mecanicosUpdate` AFTER UPDATE ON `mecanicos` FOR EACH ROW BEGIN
+    INSERT INTO registromecanico (nombre, operacion, fechayhora)
+    VALUES (concat(new.NOMBRE, new.APELLIDO), 'UPDATE', now());
+  END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `registromecanico`
+--
+
+CREATE TABLE `registromecanico` (
+  `nombre` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `operacion` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fechayhora` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `registromecanico`
+--
+
+INSERT INTO `registromecanico` (`nombre`, `operacion`, `fechayhora`) VALUES
+('LalaLala', 'INSERT', '2016-07-05 11:02:18'),
+('LoloLala', 'UPDATE', '2016-07-05 11:02:35'),
+('LoloLala', 'DELETE', '2016-07-05 11:02:42');
+
 -- --------------------------------------------------------
 
 --
@@ -310,7 +356,7 @@ INSERT INTO `trabajos` (`NROTRABAJO`, `MATRICULA`, `ENTRADA`, `PRECIO`, `SALIDA`
 (6, 'B-101870', '2014-08-01', '10.00', '2016-07-05'),
 (7, 'B-101781', '2014-08-01', '2550.00', '2014-08-18'),
 (8, 'B-108789', '2014-08-01', '1555.00', '2014-08-28'),
-(9, 'B-106795', '2016-06-13', '0.00', '0000-00-00'),
+(9, 'B-106795', '2016-06-13', '150.00', '2016-07-05'),
 (10, 'B-105105', '2014-08-02', '950.00', '2014-08-28'),
 (11, 'B-101128', '2014-08-02', '250.00', '2014-08-28'),
 (12, 'A-125885', '2014-08-02', '4100.00', '2014-08-19'),
@@ -331,6 +377,21 @@ INSERT INTO `trabajos` (`NROTRABAJO`, `MATRICULA`, `ENTRADA`, `PRECIO`, `SALIDA`
 (27, 'B-103157', '2014-08-03', '4580.00', '2014-08-18'),
 (28, 'B-103159', '2016-06-13', '0.00', '0000-00-00'),
 (29, 'B-104104', '2014-08-03', '850.00', '2014-08-15');
+
+--
+-- Triggers `trabajos`
+--
+DELIMITER $$
+CREATE TRIGGER `TrabajoTerminado` AFTER UPDATE ON `trabajos` FOR EACH ROW BEGIN
+    IF old.PRECIO = 0.00 AND new.SALIDA != 0.00
+    THEN
+      UPDATE trabajos_x_mecanicos
+      SET TERMINADO = -1
+      WHERE NROTRABAJO = new.NROTRABAJO;
+    END IF;
+  END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -358,7 +419,7 @@ INSERT INTO `trabajos_x_mecanicos` (`NROTRABAJO`, `MECANICO`, `DESCRIPCION`, `TE
 (6, 2, 'Pintura', 0),
 (7, 3, 'Motor', -1),
 (8, 5, 'Pintura', -1),
-(9, 2, 'Alineación', 0),
+(9, 2, 'Alineación', -1),
 (10, 1, 'Electricidad', -1),
 (11, 3, 'Alineación', -1),
 (12, 5, 'Pintura', -1),
