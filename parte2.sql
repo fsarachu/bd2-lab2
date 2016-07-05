@@ -35,4 +35,17 @@ FOR EACH ROW
   END;
 
 
+-- Tarea 2
+
+DROP TRIGGER IF EXISTS TrabajoTerminado;
+CREATE TRIGGER TrabajoTerminado AFTER UPDATE ON trabajos
+FOR EACH ROW
+  BEGIN
+    IF old.SALIDA IS NULL AND new.SALIDA IS NOT NULL
+    THEN
+      UPDATE trabajos_x_mecanicos
+      SET TERMINADO = -1
+      WHERE NROTRABAJO = new.NROTRABAJO;
+    END IF;
+  END;
 
