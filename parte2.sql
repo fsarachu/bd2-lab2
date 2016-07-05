@@ -31,7 +31,7 @@ CREATE TRIGGER mecanicosDelete AFTER DELETE ON mecanicos
 FOR EACH ROW
   BEGIN
     INSERT INTO registromecanico (nombre, operacion, fechayhora)
-    VALUES (concat(new.NOMBRE, new.APELLIDO), 'DELETE', now());
+    VALUES (concat(old.NOMBRE, old.APELLIDO), 'DELETE', now());
   END;
 
 
