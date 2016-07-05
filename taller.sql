@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 05, 2016 at 11:09 AM
+-- Generation Time: Jul 05, 2016 at 11:20 AM
 -- Server version: 5.6.30-1
 -- PHP Version: 7.0.7-5
 
@@ -289,21 +289,21 @@ INSERT INTO `mecanicos` (`MECANICO`, `NOMBRE`, `APELLIDO`, `CATEGORIA`, `DIRECCI
 DELIMITER $$
 CREATE TRIGGER `mecanicosDelete` AFTER DELETE ON `mecanicos` FOR EACH ROW BEGIN
     INSERT INTO registromecanico (nombre, operacion, fechayhora)
-    VALUES (concat(old.NOMBRE, old.APELLIDO), 'DELETE', now());
+    VALUES (user(), 'DELETE', now());
   END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `mecanicosInsert` AFTER INSERT ON `mecanicos` FOR EACH ROW BEGIN
     INSERT INTO registromecanico (nombre, operacion, fechayhora)
-    VALUES (concat(new.NOMBRE, new.APELLIDO), 'INSERT', now());
+    VALUES (user(), 'INSERT', now());
   END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `mecanicosUpdate` AFTER UPDATE ON `mecanicos` FOR EACH ROW BEGIN
     INSERT INTO registromecanico (nombre, operacion, fechayhora)
-    VALUES (concat(new.NOMBRE, new.APELLIDO), 'UPDATE', now());
+    VALUES (user(), 'UPDATE', now());
   END
 $$
 DELIMITER ;
@@ -325,9 +325,9 @@ CREATE TABLE `registromecanico` (
 --
 
 INSERT INTO `registromecanico` (`nombre`, `operacion`, `fechayhora`) VALUES
-('LalaLala', 'INSERT', '2016-07-05 11:02:18'),
-('LoloLala', 'UPDATE', '2016-07-05 11:02:35'),
-('LoloLala', 'DELETE', '2016-07-05 11:02:42');
+('sandbox@localhost', 'INSERT', '2016-07-05 11:19:04'),
+('sandbox@localhost', 'UPDATE', '2016-07-05 11:19:17'),
+('sandbox@localhost', 'DELETE', '2016-07-05 11:19:27');
 
 -- --------------------------------------------------------
 
