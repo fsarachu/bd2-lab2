@@ -149,15 +149,9 @@ CREATE FUNCTION CantidadDias(_matricula VARCHAR(10))
     DECLARE _entrada DATE DEFAULT NULL;
     DECLARE _salida DATE DEFAULT NULL;
 
-    -- Obtengo fecha de entrada
-    SELECT ENTRADA
-    INTO _entrada
-    FROM trabajos
-    WHERE MATRICULA = _matricula;
-
-    -- Obtengo fecha de salida
-    SELECT SALIDA
-    INTO _salida
+    -- Obtengo fechas
+    SELECT ENTRADA, SALIDA
+    INTO _entrada, _salida
     FROM trabajos
     WHERE MATRICULA = _matricula;
 
