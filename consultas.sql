@@ -96,4 +96,23 @@ CREATE PROCEDURE Aumento(IN _importe decimal(8,2), IN _porcentaje decimal(5,2))
   END;
 
 
+-- Tarea 7
+
+DROP PROCEDURE IF EXISTS EliminoUltimoMecanico;
+CREATE PROCEDURE EliminoUltimoMecanico()
+  BEGIN
+    -- Variables
+    DECLARE _id SMALLINT(5) UNSIGNED DEFAULT NULL;
+
+    -- Obtengo id del último mecánico
+    SELECT max(MECANICO)
+    INTO _id
+    FROM mecanicos;
+
+    -- Borro el último mecánico
+    DELETE FROM mecanicos
+    WHERE MECANICO = _id;
+  END;
+
+
 
