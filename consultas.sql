@@ -115,4 +115,28 @@ CREATE PROCEDURE EliminoUltimoMecanico()
   END;
 
 
+-- Tarea 8
+
+DROP FUNCTION IF EXISTS IVA;
+CREATE FUNCTION IVA(_matricula VARCHAR(10))
+  RETURNS DECIMAL(10, 2)
+  BEGIN
+    -- Variables
+    DECLARE _iva DECIMAL(10, 2) DEFAULT 0.00;
+    DECLARE _total DECIMAL(10, 2) DEFAULT 0.00;
+
+    -- Obtengo Precio
+    SELECT PRECIO
+    INTO _total
+    FROM trabajos
+    WHERE MATRICULA = _matricula;
+
+    -- Calculo iva
+    SET _iva = _total - (_total / 1.22);
+
+    -- Lo retorno
+    RETURN _iva;
+  END;
+
+
 
