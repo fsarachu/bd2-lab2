@@ -139,4 +139,31 @@ CREATE FUNCTION IVA(_matricula VARCHAR(10))
   END;
 
 
+-- Tarea 9 
+
+DROP FUNCTION IF EXISTS CantidadDias;
+CREATE FUNCTION CantidadDias(_matricula VARCHAR(10))
+  RETURNS INT
+  BEGIN
+    -- Variables
+    DECLARE _entrada DATE DEFAULT NULL;
+    DECLARE _salida DATE DEFAULT NULL;
+
+    -- Obtengo fecha de entrada
+    SELECT ENTRADA
+    INTO _entrada
+    FROM trabajos
+    WHERE MATRICULA = _matricula;
+
+    -- Obtengo fecha de salida
+    SELECT SALIDA
+    INTO _salida
+    FROM trabajos
+    WHERE MATRICULA = _matricula;
+
+    -- Retorno cantidad de días
+    RETURN ifnull(datediff(_salida, _entrada), 0);
+  END;
+
+
 
