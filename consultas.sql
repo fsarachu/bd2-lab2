@@ -203,6 +203,7 @@ CREATE PROCEDURE FinTrabajo(IN _nroTrabajo SMALLINT(5) UNSIGNED, IN _precio DECI
     FROM trabajos
     WHERE NROTRABAJO = _nroTrabajo;
 
+    -- Si existe el trabajo y no terminó
     IF CantidadDias(_matricula) = 0 AND _matricula IS NOT NULL
     THEN
       UPDATE trabajos
