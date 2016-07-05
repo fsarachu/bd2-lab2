@@ -74,3 +74,15 @@ CREATE PROCEDURE AgregoMecanico(IN _nombre    VARCHAR(30), IN _apellido VARCHAR(
   END;
 
 
+-- Tarea 5
+
+DROP PROCEDURE IF EXISTS Taxi;
+CREATE PROCEDURE Taxi()
+  BEGIN
+    UPDATE autos
+    SET COLOR = 'Blanco'
+    WHERE MARCA IN ('Opel', 'Fiat');
+  END;
+
+
+
