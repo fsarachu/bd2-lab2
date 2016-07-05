@@ -13,7 +13,7 @@ CREATE TRIGGER mecanicosInsert AFTER INSERT ON mecanicos
 FOR EACH ROW
   BEGIN
     INSERT INTO registromecanico (nombre, operacion, fechayhora)
-    VALUES (concat(new.NOMBRE, new.APELLIDO), 'INSERT', now());
+    VALUES (user(), 'INSERT', now());
   END;
 
 -- Trigger para UPDATE
@@ -22,7 +22,7 @@ CREATE TRIGGER mecanicosUpdate AFTER UPDATE ON mecanicos
 FOR EACH ROW
   BEGIN
     INSERT INTO registromecanico (nombre, operacion, fechayhora)
-    VALUES (concat(new.NOMBRE, new.APELLIDO), 'UPDATE', now());
+    VALUES (user(), 'UPDATE', now());
   END;
 
 -- Trigger para DELETE
@@ -31,7 +31,7 @@ CREATE TRIGGER mecanicosDelete AFTER DELETE ON mecanicos
 FOR EACH ROW
   BEGIN
     INSERT INTO registromecanico (nombre, operacion, fechayhora)
-    VALUES (concat(old.NOMBRE, old.APELLIDO), 'DELETE', now());
+    VALUES (user(), 'DELETE', now());
   END;
 
 
