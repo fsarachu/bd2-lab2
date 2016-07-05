@@ -41,7 +41,7 @@ DROP TRIGGER IF EXISTS TrabajoTerminado;
 CREATE TRIGGER TrabajoTerminado AFTER UPDATE ON trabajos
 FOR EACH ROW
   BEGIN
-    IF old.SALIDA IS NULL AND new.SALIDA IS NOT NULL
+    IF old.SALIDA = '0000-00-00' AND new.SALIDA != '0000-00-00'
     THEN
       UPDATE trabajos_x_mecanicos
       SET TERMINADO = -1
