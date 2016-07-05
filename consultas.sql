@@ -203,7 +203,7 @@ CREATE PROCEDURE FinTrabajo(IN _nroTrabajo SMALLINT(5) UNSIGNED, IN _precio DECI
     FROM trabajos
     WHERE NROTRABAJO = _nroTrabajo;
 
-    IF TerminoSiNo(_matricula) = 'TERMINADO'
+    IF CantidadDias(_matricula) = 0 AND _matricula IS NOT NULL
     THEN
       UPDATE trabajos
       SET PRECIO = _precio, SALIDA = _salida
